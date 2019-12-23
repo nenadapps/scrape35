@@ -183,6 +183,12 @@ def get_subcategories(url):
     
     return items
 
+def get_stamp_from_subcategory(page_url):
+    while(page_url):
+        page_items, page_url = get_page_items(page_url)
+        for page_item in page_items:
+                stamp = get_details(page_item)
+
 item_dict = {
 'Commonwealth':'https://www.1st4stamps1840.co.uk/product-category/commonwealth',
 'Great Britain':'https://www.1st4stamps1840.co.uk/product-category/great-britain'
@@ -192,14 +198,15 @@ for key in item_dict:
     print(key + ': ' + item_dict[key])   
 
 selection = input('Choose category: ')
-            
 category_url = item_dict[selection]
-subcategories = get_subcategories(category_url)
-for subcategory in subcategories:
-    subcategories2 = get_subcategories(subcategory)
-    for subcategory2 in subcategories2:
-        page_url = subcategory2
-        while(page_url):
-            page_items, page_url = get_page_items(page_url)
-            for page_item in page_items:
-                    stamp = get_details(page_item)
+if selection == 'Great Britain':            
+    subcategories = get_subcategories(category_url)
+    for subcategory in subcategories:
+        subcategories2 = get_subcategories(subcategory)
+        for subcategory2 in subcategories2:
+            get_stamp_from_subcategory(subcategory2)
+else:
+    subcategories = get_subcategories(category_url)
+    for subcategory in subcategories:
+        get_stamp_from_subcategory(subcategory)
+        
